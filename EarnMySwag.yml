@@ -1,0 +1,21 @@
+lb:
+  image: 'tutum/haproxy:latest'
+  links:
+    - web
+  ports:
+    - '80:80'
+  restart: always
+  roles:
+    - global
+redis:
+  image: 'redis:latest'
+  restart: always
+web:
+  image: 'tutum/quickstart-python:latest'
+  deployment_strategy: high_availability
+  environment:
+    - NAME=Docklandia!
+  links:
+    - redis
+  restart: always
+  target_num_containers: 3
